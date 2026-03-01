@@ -2,6 +2,18 @@
 
 Alphine is a secure AI chat workspace built with React + TypeScript + Vite + Tailwind + Appwrite.
 
+This is a fun experimental project I created to really push the boundaries of current AI capabilities.
+
+The entire application was built **exclusively** using:
+
+- **Google Antigravity** (Google's agent-first, AI-powered IDE)  
+- **OpenAI Codex CLI** (the lightweight terminal-based coding agent)
+
+I simply orchestrated and guided the different pieces together — no other tools or manual coding required.
+
+Check out the live demo here:  
+👉 https://alphine.appwrite.network/welcome 😄
+
 It is designed around two priorities:
 
 - Secure access by default (email verification, MFA, and OAuth support)
