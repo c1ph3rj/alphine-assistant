@@ -1,0 +1,193 @@
+@import url("https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap");
+@import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  /* Enforce Strict Monochrome */
+  --color-black: #000000;
+  --color-white: #ffffff;
+  /* Strip out all colors by defining empty or just black/white */
+  --color-transparent: transparent;
+  --color-current: currentColor;
+}
+
+/* Base resets & styling */
+@layer base {
+  :root {
+    --background: #ffffff;
+    --foreground: #000000;
+    --border: #e5e5e5;
+    --ring: #000000;
+    --radius: 0.5rem;
+    --font-ui: "Space Grotesk", "Manrope", "Segoe UI", sans-serif;
+    --font-display: "Manrope", "Space Grotesk", "Segoe UI", sans-serif;
+    /* Softer corners */
+  }
+
+  /* Optional Dark Mode (invert) */
+  .dark {
+    --background: #212121;
+    /* Softer dark gray closer to ChatGPT */
+    --foreground: #ececec;
+    --border: #333333;
+    --ring: #ffffff;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-black/10 dark:border-white/10;
+  }
+
+  html,
+  body,
+  #root {
+    min-height: 100%;
+    height: 100%;
+    width: 100%;
+  }
+
+  body {
+    @apply bg-white text-black dark:bg-black dark:text-white antialiased font-sans selection:bg-black selection:text-white dark:selection:bg-white dark:selection:text-black;
+    font-family: var(--font-ui);
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+  }
+}
+
+/* Custom scrollbar for monochrome aesthetic */
+::-webkit-scrollbar {
+  width: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: black;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: white;
+}
+
+@keyframes shimmer-slide {
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.shimmer-surface {
+  position: relative;
+  overflow: hidden;
+  background-color: rgba(0, 0, 0, 0.08);
+}
+
+.dark .shimmer-surface {
+  background-color: rgba(255, 255, 255, 0.12);
+}
+
+.shimmer-surface::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  transform: translateX(-100%);
+  background-image: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.75),
+    transparent
+  );
+  animation: shimmer-slide 1.4s ease-in-out infinite;
+}
+
+.dark .shimmer-surface::after {
+  background-image: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.25),
+    transparent
+  );
+}
+
+@keyframes page-enter {
+  0% {
+    opacity: 0;
+    transform: translateY(6px) scale(0.995);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.page-transition-layer {
+  min-height: 100%;
+  animation: page-enter 220ms cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: opacity, transform;
+}
+
+@keyframes composer-pop-in {
+  0% {
+    opacity: 0;
+    transform: translateY(8px) scale(0.98);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes composer-sheet-in {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes composer-fade-in {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.composer-pop-in {
+  animation: composer-pop-in 160ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.composer-sheet-in {
+  animation: composer-sheet-in 220ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.composer-fade-in {
+  animation: composer-fade-in 180ms ease-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .page-transition-layer {
+    animation: none;
+  }
+
+  .composer-pop-in,
+  .composer-sheet-in,
+  .composer-fade-in {
+    animation: none;
+  }
+}
